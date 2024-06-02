@@ -1,0 +1,6 @@
+@TopZone_HostAddress = http://localhost:5082
+
+GET {{TopZone_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
