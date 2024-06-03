@@ -17,7 +17,8 @@ namespace Infrastructure.Configurations
 
             builder.HasOne(t => t.MainType)
                 .WithMany(t => t.SubTypes)
-                .HasForeignKey(t => t.MainTypeId);
+                .HasForeignKey(t => t.MainTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
 

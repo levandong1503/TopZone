@@ -10,7 +10,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     public void Configure(EntityTypeBuilder<Product> builder)
     {
         builder.HasKey(nameof(Product.Id));
-        builder.HasOne(p => p.Type);
 
         builder.Property(p => p.ProductName)
             .HasColumnType("nvarchar")
@@ -18,7 +17,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Description)
             .HasColumnType("nvarchar")
-            .HasMaxLength(6500);
+            .HasMaxLength(2000);
+
+        builder.HasMany(p => p.TypeProducts)
+            .WithOne(tp => tp.Product);
 
     }
 }
