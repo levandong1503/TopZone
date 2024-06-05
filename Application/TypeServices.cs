@@ -20,14 +20,4 @@ public class TypeServices
     {
         return _iTypeRepository.GetById(id);
     }
-
-    //public ICollection<Type> GetTopProductForEveryType(int numberOfType, int numberOfProduct)
-    //{
-    //    foreach (var item in _iTypeRepository.Gets(numberOfType))
-    //    {
-    //        item.TypeProducts
-    //    }
-
-    //}
-
 }

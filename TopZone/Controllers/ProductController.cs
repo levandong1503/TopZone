@@ -38,5 +38,24 @@ namespace TopZone.Controllers
 
             return Ok();
         }
+
+        [HttpGet("GetProductsOfTypes/{idType}")]
+        public ActionResult GetProducsOfTypes([FromRoute] int idType)
+        {
+            var producsOfTypes = _services.GetHotProductsOfTypeList(idType);
+            return Ok(producsOfTypes);
+        }
+
+        [HttpGet("GetProductsByTypeName")]
+        public ActionResult GetProductsByTypeName([FromQuery] string typeName)
+        {
+            return Ok(_services.GetProductsByNameType(typeName));
+        }
+
+        [HttpGet("GetDetailProduct/{id}")]
+        public ActionResult GetDetailProduct([FromRoute] int id)
+        {
+            return Ok(_services.GetDetailProduct(id));
+        }
     }
 }

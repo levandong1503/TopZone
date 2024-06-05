@@ -57,4 +57,9 @@ public class TypeRepository : ITypeRepository
     {
         return _topZoneContext.Types.Skip(number).ToList();
     }
+
+    public IEnumerable<Type> GetNumberOfTypes(int numberOfTypes)
+    {
+        return _topZoneContext.Types.Take(numberOfTypes).ToList();
+    }
 }

@@ -5,6 +5,7 @@ using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TopZone.Mapper;
+using TopZone.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandleMiddleware>();
+
 app.MapIdentityApi<ApplicationUser>();
 
 app.UseHttpsRedirection();
@@ -64,3 +67,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
