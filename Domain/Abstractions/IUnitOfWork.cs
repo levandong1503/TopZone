@@ -1,6 +1,11 @@
 ﻿namespace Domain.Abstractions;
 
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
-    Task<int> SaveChangeAsync(CancellationToken cancellationToken = default);
+    IProductRepository ProductRepository { get; }
+    ITypeRepository TypeRepository { get; }
+    Task BeginTransactionAsync();
+    Task CommitAsync();
+    Task RollbackAsync();
+    Task<int> SaveChangesAsync();
 }

@@ -5,9 +5,9 @@ namespace Application.Interface;
 
 public interface IProductService
 {
-    public void Add(Product product);
+    public Product Add(Product product);
     public Product GetById(int id);
-    public IEnumerable<ProducsOfType> GetHotProductsOfTypeList(int numberOfType);
+    public IEnumerable<Product> GetHotProductsOfType(int typeId, int productTaking = 5);
     public IEnumerable<Product> GetProductsByNameType(string name);
     public Product GetDetailProduct(int id);
 }

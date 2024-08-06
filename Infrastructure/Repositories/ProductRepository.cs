@@ -9,19 +9,13 @@ using Type = Domain.Entities.Type;
 
 namespace Infrastructure.Repositories;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository : RepositoryBase<Product>, IProductRepository
 {
     private readonly TopZoneContext _topZoneContext;
 
-    public ProductRepository(TopZoneContext topZoneContext)
+    public ProductRepository(TopZoneContext topZoneContext) : base(topZoneContext)
     {
         _topZoneContext = topZoneContext;
-    }
-
-    public void Delete(Product product)
-    {
-       _topZoneContext.Products.Remove(product);
-       _topZoneContext.SaveChanges();
     }
 
     public ICollection<Product> GetAll()
@@ -29,7 +23,7 @@ public class ProductRepository : IProductRepository
         return _topZoneContext.Products.ToList();
     }
 
-    public Product GetById(int id)
+    public override Product GetById(int id)
     {
         var product = _topZoneContext.Products.Find(id);
 
@@ -58,12 +52,20 @@ public class ProductRepository : IProductRepository
         _topZoneContext.SaveChanges();
     }
 
-    public ProducsOfType? GetListProductOfType(int idType)
+    public IEnumerable<Product> GetListProductOfType(int idType, int take = 5)
     {
-        var productOfType = _topZoneContext.Types
-        .Join(_topZoneContext.TypeProducts, t => t.Id, tp => tp.IdType, (type, sGroup) => new { type, sGroup })
-        .GroupJoin(_topZoneContext.Products, t => t.sGroup.IdProduct, p => p.Id, (t, s) => new ProducsOfType() { Type = t.type, Products = s })
-        .Where(tp => tp.Type.Id == idType).FirstOrDefault();
+        //var productOfType = _topZoneContext.Types
+        //.Join(_topZoneContext.TypeProducts, t => t.Id, tp => tp.IdType, (type, sGroup) => new { type, sGroup })
+        //.GroupJoin(_topZoneContext.Products, t => t.sGroup.IdProduct, p => p.Id, (t, s) => new { t.type, s })
+        //.Where(tp => tp.type.Id == idType)
+        //.SelectMany(x => x.s)
+        //.Take(take)
+        //.ToList();
+
+        var productOfType = _topZoneContext.Products
+            .Include(nameof(Product.TypeProducts))
+            .Where(p => p.TypeProducts.Any(tp => tp.Id == idType))
+            .ToList();
 
         return productOfType;
     }

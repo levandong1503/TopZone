@@ -1,6 +1,7 @@
 ﻿using Application.Interface;
 using Domain.Abstractions;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Models;
 using System.Runtime.InteropServices;
 
@@ -10,15 +11,17 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
     private readonly ITypeRepository _typeRepository;
-    public ProductService(IProductRepository productRepository, ITypeRepository typeRepository)
+    private readonly ITypeProductRepository _typeProductRepository;
+    public ProductService(IProductRepository productRepository, ITypeRepository typeRepository, ITypeProductRepository typeProductRepository)
     {
         _productRepository = productRepository;
         _typeRepository = typeRepository;
+        _typeProductRepository = typeProductRepository;
     }
 
-    public void Add(Product product)
+    public Product Add(Product product)
     {
-        _productRepository.Insert(product);
+        return _productRepository.Add(product);
     }
 
     public Product GetById(int id)
@@ -26,23 +29,11 @@ public class ProductService : IProductService
         return _productRepository.GetById(id);
     }
 
-    public IEnumerable<ProducsOfType> GetHotProductsOfTypeList(int numberOfType)
+    public IEnumerable<Product> GetHotProductsOfType(int typeId, int productTaking = 5)
     {
 
-        var types = _typeRepository.GetNumberOfTypes(numberOfType); //_productRepository.GetListProductOfType(numberOfType);
-        var productsOfTypes = new List<ProducsOfType>();
-
-        foreach (var item in types)
-        {
-            var itemHomeGroup = _productRepository.GetListProductOfType(item.Id);
-            
-            if (itemHomeGroup != null)
-            {
-                productsOfTypes.Add(itemHomeGroup);
-            }
-        }
-
-        return productsOfTypes;
+        var type = _typeRepository.GetById(typeId) ?? throw new TypeNotFoundException();
+        return _productRepository.GetListProductOfType(typeId, productTaking);
     }
 
     public IEnumerable<Product> GetProductsByNameType(string name)

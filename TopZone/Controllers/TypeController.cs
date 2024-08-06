@@ -1,6 +1,5 @@
-﻿using Application;
+﻿using Application.Interface;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopZone.Dtos;
 using Type = Domain.Entities.Type;
@@ -11,10 +10,10 @@ namespace TopZone.Controllers
     [ApiController]
     public class TypeController : ControllerBase
     {
-        private readonly TypeServices _services;
+        private readonly ITypeService _services;
         private readonly IMapper _mapper;
 
-        public TypeController(TypeServices services, IMapper mapper) 
+        public TypeController(ITypeService services, IMapper mapper) 
         {
             _services = services;
             _mapper = mapper;

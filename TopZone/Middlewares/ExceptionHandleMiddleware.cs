@@ -33,7 +33,8 @@ public class ExceptionHandleMiddleware
         {
             StatusCode = context.Response.StatusCode,
             Message = "An error occurred while processing your request.",
-            Detailed = exception.Message // You can include more detailed info if necessary
+            Detailed = $"{exception.GetType().Name} - {exception.Message}", // You can include more detailed info if necessary
+            StackTrace = exception.StackTrace,
         };
 
         return context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(result));

@@ -3,15 +3,11 @@ using Domain.Models;
 
 namespace Domain.Abstractions;
 
-public interface IProductRepository
+public interface IProductRepository : IRepositoryBase<Product>
 {
-    void Insert(Product product);
-    void Update(Product product);
-    void Delete(Product product);
     ICollection<Product> GetAll();
-    Product GetById(int id);
     ICollection<Product> GetByName(string name);
-    ProducsOfType? GetListProductOfType(int idType);
+    IEnumerable<Product> GetListProductOfType(int idType, int take = 5);
     IEnumerable<Product> GetProductsByTypeName(string name);
     Product GetDetailProduct(int id);
 }

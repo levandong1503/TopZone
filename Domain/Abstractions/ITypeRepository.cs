@@ -2,9 +2,8 @@
 
 using Domain.Models;
 using Type = Entities.Type;
-public interface ITypeRepository
+public interface ITypeRepository : IRepositoryBase<Type>
 {
-    void Add(Type type);
     void Update(Type type);
     void Delete(Type type);
     ICollection<Type> GetAll();

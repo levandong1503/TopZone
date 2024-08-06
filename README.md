@@ -1,3 +1,8 @@
+# Setup
+- change `TopZoneDb` in appsettings.json
+- Open Package Manage Console and Run Command Line `Update-Database -Project Infrastructure -StartupProject TopZone`
+- Check DB
+
 # Database
 ```mermaid
 erDiagram

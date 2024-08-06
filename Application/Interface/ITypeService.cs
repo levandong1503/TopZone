@@ -1,7 +1,8 @@
 ﻿namespace Application.Interface;
+using Type = Domain.Entities.Type;
 
 public interface ITypeService
 {
-    public void Add(Type type);
-    public Type GetById(int id);
+    void Add(Type type);
+    Type GetById(int id);
 }

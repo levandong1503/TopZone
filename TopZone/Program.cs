@@ -1,11 +1,11 @@
 using Application;
-using Domain.Abstractions;
 using Infrastructure.Data;
-using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TopZone.Mapper;
 using TopZone.Middlewares;
+using Infrastructure.Extension;
+using Application.extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +20,8 @@ builder.Services.AddDbContext<TopZoneContext>(option =>
 builder.Services.AddAutoMapper(typeof(MapperConfigurationProfile).Assembly);
 
 // config service
-builder.Services.AddTransient<IProductRepository,ProductRepository>();
-builder.Services.AddTransient<ITypeRepository,TypeRepository>();
-
-builder.Services.AddTransient<TypeServices>();
-builder.Services.AddTransient<ProductService>();
+builder.Services.InfrastructureRegisterService();
+builder.Services.ApplicationRegisterServices();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();

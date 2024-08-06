@@ -1,9 +1,10 @@
-﻿using Domain.Abstractions;
+﻿using Application.Interface;
+using Domain.Abstractions;
 using Type = Domain.Entities.Type;
 
 namespace Application;
 
-public class TypeServices
+public class TypeServices : ITypeService
 {
     private readonly ITypeRepository _iTypeRepository;
     public TypeServices(ITypeRepository iTypeRepository)

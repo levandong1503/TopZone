@@ -5,18 +5,19 @@ using Type = Domain.Entities.Type;
 
 namespace Infrastructure.Repositories;
 
-public class TypeRepository : ITypeRepository
+public class TypeRepository : RepositoryBase<Type>, ITypeRepository
 {
     private readonly TopZoneContext _topZoneContext;
-    public TypeRepository(TopZoneContext topZoneContext)
+    public TypeRepository(TopZoneContext topZoneContext) : base(topZoneContext)
     {
         _topZoneContext = topZoneContext;
     }
 
-    public void Add(Type type)
+    public override Type Add(Type type)
     {
-        _topZoneContext.Add(type);
+        var result = _topZoneContext.Add(type).Entity;
         _topZoneContext.SaveChanges();
+        return result;
     }
 
     public void Delete(Type type)
@@ -30,7 +31,7 @@ public class TypeRepository : ITypeRepository
         return _topZoneContext.Types.ToList();
     }
 
-    public Type GetById(int id)
+    public override Type GetById(int id)
     {
         var type = _topZoneContext.Types.Find(id);
         
