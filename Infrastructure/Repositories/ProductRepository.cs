@@ -70,6 +70,19 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
         return productOfType;
     }
 
+    public IEnumerable<ProducsOfType> GetHotProduct(int numberOfType = 1, int numberOfProduct = 5)
+    {
+        return _topZoneContext.TypeProducts.GroupJoin(_topZoneContext.Products,
+            tp => tp.IdProduct, 
+            p => p.Id,
+            (typeProduct, products) => new { typeProduct, products })
+            .Join(_topZoneContext.Types, tp => tp.typeProduct.IdType, 
+                t => t.Id, 
+                (tp, type) 
+                    => new ProducsOfType() { Type = type, Products = tp.products.Take(numberOfType) })
+                        .Take(numberOfType);
+    }
+
     public IEnumerable<Product> GetProductsByTypeName(string name)
     {
         var result = _topZoneContext.Types

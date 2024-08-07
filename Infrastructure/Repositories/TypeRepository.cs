@@ -31,18 +31,6 @@ public class TypeRepository : RepositoryBase<Type>, ITypeRepository
         return _topZoneContext.Types.ToList();
     }
 
-    public override Type GetById(int id)
-    {
-        var type = _topZoneContext.Types.Find(id);
-        
-        if (type == null)
-        {
-            throw new TypeNotFoundException();
-        }
-
-        return type;
-    }
-
     public ICollection<Type> GetByName(string name)
     {
         return _topZoneContext.Types.Where(t => t.Name.Contains(name)).ToList();

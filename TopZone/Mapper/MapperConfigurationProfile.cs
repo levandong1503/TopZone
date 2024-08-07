@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Dtos;
 using Domain.Entities;
 using TopZone.Dtos;
 using Type = Domain.Entities.Type;
@@ -16,9 +17,7 @@ namespace TopZone.Mapper
 
             CreateMap<ProductDto, Product>();
 
-            CreateMap<ProductDto, TypeProduct>()
-                .ForMember(dest => dest.IdProduct, opt => opt.MapFrom(src => src.
-                )
+            CreateMap<ProductRequest, Product>();
         }
     }
 }

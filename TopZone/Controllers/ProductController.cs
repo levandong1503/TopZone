@@ -1,7 +1,9 @@
 ﻿using Application;
 using Application.Interface;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Entities;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopZone.Dtos;
@@ -30,16 +32,21 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ProductDto productDto)
+        public ActionResult Create(ProductRequest productRequest)
         {
-            if (productDto == null)
+            if (productRequest == null)
             {
                 return BadRequest();
             }
 
-            var newProduct = _productServices.Add(_mapper.Map<Product>(productDto));
-            _typeProductServices.get
-
+            try
+            {
+                var newProduct = _productServices.Add(productRequest);
+            }
+            catch (TypeNotFoundException) 
+            {
+                BadRequest("typeId is not found");
+            }
             
             return Ok();
         }

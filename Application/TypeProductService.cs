@@ -16,14 +16,12 @@ namespace Application
         {
             repository = typeProductRepository;
         }
-        //public int AddTypeProducts(IEnumerable<TypeProduct> typeProducts)
-        //{
-        //    repository.
-        //}
 
-        public IEnumerable<TypeProduct> GetMulti(IEnumerable<int> ids)
-        {
-            repository.GetMulti()
-        }
-    }
+		public int AddTypeProducts(IEnumerable<TypeProduct> typeProducts)
+		    => repository.AddRange(typeProducts);
+
+		public IEnumerable<TypeProduct> GetMulti(IEnumerable<int> ids)
+            => repository.GetMulti(tp => ids.Contains(tp.IdProduct));
+
+	}
 }
