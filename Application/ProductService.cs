@@ -11,20 +11,10 @@ namespace Application;
 public class ProductService : IProductService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IProductRepository _productRepository;
-    private readonly ITypeRepository _typeRepository;
-    private readonly ITypeProductRepository _typeProductRepository;
     private readonly IMapper _mapper;
-    public ProductService(IUnitOfWork unitOfWork,
-        IProductRepository productRepository, 
-        ITypeRepository typeRepository, 
-        ITypeProductRepository typeProductRepository,
-        IMapper mapper)
+    public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
-        _productRepository = productRepository;
-        _typeRepository = typeRepository;
-        _typeProductRepository = typeProductRepository;
         _mapper = mapper;
     }
 
@@ -61,7 +51,7 @@ public class ProductService : IProductService
 
     public Product GetById(int id)
     {
-        return _productRepository.GetById(id);
+        return _unitOfWork.ProductRepository.GetById(id);
     }
 
     public IEnumerable<Product> GetHotProductsOfType(int typeId, int productTaking = 5)
@@ -72,8 +62,8 @@ public class ProductService : IProductService
     }
 
     public IEnumerable<Product> GetProductsByNameType(string name)
-        => _productRepository.GetProductsByTypeName(name);
+        => _unitOfWork.ProductRepository.GetProductsByTypeName(name);
 
     public Product GetDetailProduct(int id)
-        => _productRepository.GetDetailProduct(id);
+        => _unitOfWork.ProductRepository.GetDetailProduct(id);
 }

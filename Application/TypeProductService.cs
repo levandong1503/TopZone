@@ -11,17 +11,17 @@ namespace Application
 {
     internal class TypeProductService : ITypeProductService
     {
-        private readonly ITypeProductRepository repository;
-        public TypeProductService(ITypeProductRepository typeProductRepository) 
+		private readonly IUnitOfWork _unitOfWork;
+		public TypeProductService(IUnitOfWork unitOfWork) 
         {
-            repository = typeProductRepository;
+			_unitOfWork = unitOfWork;
         }
 
 		public int AddTypeProducts(IEnumerable<TypeProduct> typeProducts)
-		    => repository.AddRange(typeProducts);
+		    => _unitOfWork.TypeProductRepository.AddRange(typeProducts);
 
 		public IEnumerable<TypeProduct> GetMulti(IEnumerable<int> ids)
-            => repository.GetMulti(tp => ids.Contains(tp.IdProduct));
+            => _unitOfWork.TypeProductRepository.GetMulti(tp => ids.Contains(tp.IdProduct));
 
 	}
 }

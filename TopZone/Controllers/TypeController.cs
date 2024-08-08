@@ -1,5 +1,6 @@
 ﻿using Application.Interface;
 using AutoMapper;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using TopZone.Dtos;
 using Type = Domain.Entities.Type;
@@ -26,7 +27,7 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TypeDto type)
+        public IActionResult Create(TypeRequest type)
         {
             if (type == null)
             {
