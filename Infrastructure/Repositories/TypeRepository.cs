@@ -13,13 +13,6 @@ public class TypeRepository : RepositoryBase<Type>, ITypeRepository
         _topZoneContext = topZoneContext;
     }
 
-    public override Type Add(Type type)
-    {
-        var result = _topZoneContext.Add(type).Entity;
-        _topZoneContext.SaveChanges();
-        return result;
-    }
-
     public void Delete(Type type)
     {
         _topZoneContext.Remove(type);

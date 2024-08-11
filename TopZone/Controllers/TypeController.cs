@@ -27,14 +27,14 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TypeRequest type)
+        public async Task<IActionResult> Create(TypeRequest type)
         {
             if (type == null)
             {
                 return BadRequest();
             }
 
-            _services.Add(_mapper.Map<Type>(type));
+            await _services.Add(_mapper.Map<Type>(type));
 
             return Ok();
 

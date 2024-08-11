@@ -26,7 +26,15 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task BeginTransactionAsync()
     {
-        _transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            _transaction = await _context.Database.BeginTransactionAsync();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception here
+            throw new InvalidOperationException("An error occurred while starting the transaction.", ex);
+        }
     }
 
     public async Task CommitAsync()
@@ -55,6 +63,11 @@ public class UnitOfWork : IUnitOfWork
     public async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
+    }
+
+    public bool HasActiveTransaction()
+    {
+        return _transaction != null;
     }
 
     public void Dispose()

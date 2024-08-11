@@ -11,11 +11,7 @@ namespace Infrastructure.Repositories
 {
     public class TypeProductsRepository : RepositoryBase<TypeProduct>, ITypeProductRepository
     {
-        protected readonly TopZoneContext DbContext;
-        public TypeProductsRepository(TopZoneContext topZoneContext) : base(topZoneContext)
-        {
-            topZoneContext = DbContext;
-        }
+        public TypeProductsRepository(TopZoneContext topZoneContext) : base(topZoneContext) { }
 
         public int AddRange(IEnumerable<TypeProduct> typeProducts)
         {

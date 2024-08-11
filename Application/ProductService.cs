@@ -30,7 +30,10 @@ public class ProductService : IProductService
         }
 
 		var addProduct = _mapper.Map<Product>(productRequest);
-		var typeProducts = new List<TypeProduct>();
+        var mewProduct = _unitOfWork.ProductRepository.Add(addProduct);
+        await _unitOfWork.CommitAsync();
+
+        var typeProducts = new List<TypeProduct>();
 
 		foreach (var typeId in productRequest.types)
 		{
@@ -41,9 +44,8 @@ public class ProductService : IProductService
             });
 		}
 
-		addProduct.TypeProducts = typeProducts;
-
-		var mewProduct = _unitOfWork.ProductRepository.Add(addProduct);
+        await _unitOfWork.BeginTransactionAsync();
+		_unitOfWork.TypeProductRepository.AddRange(typeProducts);
         await _unitOfWork.CommitAsync();
 
 		return mewProduct;

@@ -32,7 +32,7 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ProductRequest productRequest)
+        public async Task<ActionResult> Create(ProductRequest productRequest)
         {
             if (productRequest == null)
             {
@@ -41,7 +41,7 @@ namespace TopZone.Controllers
 
             try
             {
-                var newProduct = _productServices.Add(productRequest);
+                var newProduct = await _productServices.Add(productRequest);
             }
             catch (TypeNotFoundException) 
             {
