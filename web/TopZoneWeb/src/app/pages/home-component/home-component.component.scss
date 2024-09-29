@@ -1,0 +1,18 @@
+ul.nav {
+    li {
+        transition-duration: 300ms;
+        transition-timing-function: cubic-bezier(.645, .045, .355, 1);
+        transition-property: background;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    li:hover {
+        background: #2d2d2d !important;
+    }
+}
+
+.carousel-item {
+    transition: transform 0.2s ease-in-out;
+    /* Thời gian trượt là 0.2 giây */
+}
