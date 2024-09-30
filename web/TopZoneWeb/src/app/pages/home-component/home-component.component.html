@@ -41,7 +41,19 @@
     </nav>
     <app-slider></app-slider>
 
-    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-        <div ngxSlickItem style="color: white;" *ngFor="let item of list">{{ item }}</div>
-    </ngx-slick-carousel>
+    <div class="container">
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+            <!-- <div style="color: white;" *ngFor="let item of list">{{ item }}</div> -->
+            <div ngxSlickItem class="card m-1 bg-dark" style="width: 100px;" *ngFor="let item of list">
+                <img src="assets/images/iphone-16-pro-max-product.png" style="width: 100px;" class="card-img-top"
+                    alt="...">
+                <div class="card-body">
+                    <p class="card-text text-light">Some quick example text to build on the card title and make up the
+                        bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+
+        </ngx-slick-carousel>
+    </div>
 </div>

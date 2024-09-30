@@ -12,8 +12,8 @@ export class HomeComponentComponent {
   endX: number | null = null;
   carouselInstance: any;
 
-  slideConfig = { slidesToShow: 1,slidesToScroll: 1,dots: true}
+  slideConfig = { slidesToShow: 4, slidesToScroll: 4, dots: true }
 
-  list = [1,2,3]
+  list = [1, 2, 3, 4, 5, 6, 7, 8]
 
 }
