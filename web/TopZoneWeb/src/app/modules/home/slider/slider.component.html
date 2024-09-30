@@ -1,0 +1,23 @@
+<div #carouselExampleInterval id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel"
+    data-bs-interval="5000" (touchstart)="touchStartSlider($event)" (touchmove)="touchMoveSlider($event)"
+    (mousedown)="mouseStartSlider($event)" (mouseup)="mouseEnd($event)" (touchend)="touchEnd($event)">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="assets/images/iphone-16-pro.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/ipad-pro-m4.png" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/apple-watch.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
