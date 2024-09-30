@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "TopZoneWeb:build:production"
+              "buildTarget": "TopZoneWeb:build:production"
             },
             "development": {
-              "browserTarget": "TopZoneWeb:build:development"
+              "buildTarget": "TopZoneWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TopZoneWeb:build"
+            "buildTarget": "TopZoneWeb:build"
           }
         },
         "test": {
