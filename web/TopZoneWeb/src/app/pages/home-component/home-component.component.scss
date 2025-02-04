@@ -1,4 +1,4 @@
-.bg-header{
+.bg-header {
     background-color: #101010;
 }
 
@@ -14,4 +14,20 @@ ul.nav {
     li:hover {
         background: #2d2d2d !important;
     }
+}
+
+.slick-prev-custom::before {
+    content: "->" !important;
+    color: red;
+    font-size: 30px;
+    line-height: 1;
+    color: white;
+    opacity: 0.75;
+    -webkit-font-smoothing: antialiased;
+}
+
+.slick-next::before {
+    content: "<-" !important;
+    color: red;
+    font-size: 30px;
 }

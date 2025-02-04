@@ -44,13 +44,17 @@
     <div class="container">
         <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
             <!-- <div style="color: white;" *ngFor="let item of list">{{ item }}</div> -->
-            <div ngxSlickItem class="card m-1 bg-dark" style="width: 100px;" *ngFor="let item of list">
-                <img src="assets/images/iphone-16-pro-max-product.png" style="width: 100px;" class="card-img-top"
-                    alt="...">
+            <div ngxSlickItem class="card m-2 bg-dark rounded-4" *ngFor="let item of list">
+                <div class="card-header border-bottom border-dark">
+                    abc
+                </div>
                 <div class="card-body">
-                    <p class="card-text text-light">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p>
+                    <img src="assets/images/iphone-16-pro-max-product.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text text-light mb-3 text-center">Name Product</p>
+                        <p class="card-text text-light mb-0 text-center">Price</p>
+                        <p class="card-text text-light text-center">Note Title</p>
+                    </div>
                 </div>
             </div>
 
