@@ -24,4 +24,13 @@ public class TopZoneContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
+
+    /// <summary>
+    /// you can use to customize convention
+    /// </summary>
+    /// <param name="configurationBuilder"></param>
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+    }
 }
