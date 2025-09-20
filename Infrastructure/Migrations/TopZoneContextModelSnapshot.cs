@@ -38,7 +38,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroupSpecifications");
+                    b.ToTable("GroupSpecifications", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.ImagesProduct", b =>
@@ -66,7 +66,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SubProductId");
 
-                    b.ToTable("ImagesProduct");
+                    b.ToTable("ImagesProduct", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -88,7 +88,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Specification", b =>
@@ -110,7 +110,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Specifications");
+                    b.ToTable("Specifications", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.SpecificationSubProduct", b =>
@@ -133,7 +133,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("IdSubProduct");
 
-                    b.ToTable("SpecificationSubProducts");
+                    b.ToTable("SpecificationSubProducts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.SubProduct", b =>
@@ -151,7 +151,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("SubProducts");
+                    b.ToTable("SubProducts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Type", b =>
@@ -173,7 +173,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("MainTypeId");
 
-                    b.ToTable("Types");
+                    b.ToTable("Types", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.TypeProduct", b =>
@@ -196,7 +196,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("IdType");
 
-                    b.ToTable("TypeProducts");
+                    b.ToTable("TypeProducts", (string)null);
                 });
 
             modelBuilder.Entity("Infrastructure.Data.ApplicationUser", b =>

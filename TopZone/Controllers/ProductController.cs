@@ -32,6 +32,7 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
+        [EndpointDescription("Tạo một Sản phẩm")]
         public async Task<ActionResult> Create(ProductRequest productRequest)
         {
             if (productRequest == null)
