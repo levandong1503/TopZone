@@ -1,6 +1,7 @@
 ﻿using Application.Interface;
 using AutoMapper;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TopZone.Dtos;
 using Type = Domain.Entities.Type;
@@ -27,6 +28,7 @@ namespace TopZone.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(TypeRequest type)
         {
             if (type == null)

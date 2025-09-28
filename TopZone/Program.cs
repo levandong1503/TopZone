@@ -1,10 +1,15 @@
+using Application.extension;
 using Infrastructure.Data;
+using Infrastructure.Extension;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using TopZone.Mapper;
 using TopZone.Middlewares;
-using Infrastructure.Extension;
-using Application.extension;
 
 internal class Program
 {
@@ -29,10 +34,8 @@ internal class Program
 
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication();
-        builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
-            .AddEntityFrameworkStores<TopZoneContext>();
 
-        builder.Services.Configure<IdentityOptions>(options =>
+        builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
         {
             // Default Password settings.
             options.Password.RequireDigit = false;
@@ -41,7 +44,20 @@ internal class Program
             options.Password.RequireUppercase = false;
             options.Password.RequiredLength = 6;
             options.Password.RequiredUniqueChars = 1;
-        });
+        })
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<TopZoneContext>();
+
+        //builder.Services.Configure<IdentityOptions>(options =>
+        //{
+        //    // Default Password settings.
+        //    options.Password.RequireDigit = false;
+        //    options.Password.RequireLowercase = false;
+        //    options.Password.RequireNonAlphanumeric = false;
+        //    options.Password.RequireUppercase = false;
+        //    options.Password.RequiredLength = 6;
+        //    options.Password.RequiredUniqueChars = 1;
+        //});
 
         builder.Services
             .AddControllers()
@@ -51,7 +67,24 @@ internal class Program
             });
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+             {
+                 Description = "Enter 'Bearer {token}'",
+                 Name = "Authorization",
+                 In = ParameterLocation.Header,
+                 Type = SecuritySchemeType.ApiKey,
+                 Scheme = "Bearer"
+             });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                {
+                    new OpenApiSecurityScheme{
+                        Reference = new OpenApiReference{ Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                    }, new string[]{}
+                }
+            });
+        });
 
         var app = builder.Build();
 

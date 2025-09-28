@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TopZone.Dtos;
@@ -33,6 +34,7 @@ namespace TopZone.Controllers
 
         [HttpPost]
         [EndpointDescription("Tạo một Sản phẩm")]
+        [Authorize]
         public async Task<ActionResult> Create(ProductRequest productRequest)
         {
             if (productRequest == null)
