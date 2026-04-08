@@ -18,7 +18,7 @@ public class ExceptionHandleMiddleware
         {
             await _next(httpContext);
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             await HandleExceptionAsync(httpContext, ex);
         }

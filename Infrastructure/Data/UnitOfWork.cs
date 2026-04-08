@@ -12,17 +12,17 @@ public class UnitOfWork : IUnitOfWork
     public ITypeRepository TypeRepository { get; private set; }
     public ITypeProductRepository TypeProductRepository { get; private set; }
 
-    public UnitOfWork(TopZoneContext context, 
-        IProductRepository productRepository, 
+    public UnitOfWork(TopZoneContext context,
+        IProductRepository productRepository,
         ITypeRepository typeRepository,
-		ITypeProductRepository typeProductRepository
-		)
+        ITypeProductRepository typeProductRepository
+        )
     {
         _context = context;
         ProductRepository = productRepository;
         TypeRepository = typeRepository;
-		TypeProductRepository = typeProductRepository;
-	}
+        TypeProductRepository = typeProductRepository;
+    }
 
     public async Task BeginTransactionAsync()
     {

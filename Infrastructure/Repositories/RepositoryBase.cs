@@ -23,7 +23,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         if (result == null)
         {
             throw new KeyNotFoundException();
-        }    
+        }
 
         return result;
     }

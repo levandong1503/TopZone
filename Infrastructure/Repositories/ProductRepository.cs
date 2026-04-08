@@ -4,8 +4,6 @@ using Domain.Exceptions;
 using Domain.Models;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-using Type = Domain.Entities.Type;
 
 namespace Infrastructure.Repositories;
 
@@ -27,7 +25,7 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
         var product = _topZoneContext.Products.Find(id);
 
-        if (product == null) 
+        if (product == null)
         {
             throw new ProductNotFoundException();
         }
@@ -73,12 +71,12 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     public IEnumerable<ProducsOfType> GetHotProduct(int numberOfType = 1, int numberOfProduct = 5)
     {
         return _topZoneContext.TypeProducts.GroupJoin(_topZoneContext.Products,
-            tp => tp.IdProduct, 
+            tp => tp.IdProduct,
             p => p.Id,
             (typeProduct, products) => new { typeProduct, products })
-            .Join(_topZoneContext.Types, tp => tp.typeProduct.IdType, 
-                t => t.Id, 
-                (tp, type) 
+            .Join(_topZoneContext.Types, tp => tp.typeProduct.IdType,
+                t => t.Id,
+                (tp, type)
                     => new ProducsOfType() { Type = type, Products = tp.products.Take(numberOfType) })
                         .Take(numberOfType);
     }
@@ -87,9 +85,9 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
         var result = _topZoneContext.Types
             .Join(_topZoneContext.TypeProducts, t => t.Id, tp => tp.IdType, (t, tp) => new { t, tp })
-            .Join(_topZoneContext.Products, t => t.tp.IdProduct, p => p.Id, (ttp, p ) => new { Type = ttp.t , Product = p })
-            .Where( p => p.Type.Name == name)
-            .Select( p => p.Product).ToList();
+            .Join(_topZoneContext.Products, t => t.tp.IdProduct, p => p.Id, (ttp, p) => new { Type = ttp.t, Product = p })
+            .Where(p => p.Type.Name == name)
+            .Select(p => p.Product).ToList();
 
         return result;
     }
@@ -97,8 +95,8 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     public Product GetDetailProduct(int id)
     {
         var result = _topZoneContext.Products.Find(id);
-        
-        if(result is null)
+
+        if (result is null)
         {
             throw new ProductNotFoundException();
         }

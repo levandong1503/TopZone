@@ -3,7 +3,6 @@ using AutoMapper;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TopZone.Dtos;
 using Type = Domain.Entities.Type;
 
 namespace TopZone.Controllers
@@ -15,7 +14,7 @@ namespace TopZone.Controllers
         private readonly ITypeService _services;
         private readonly IMapper _mapper;
 
-        public TypeController(ITypeService services, IMapper mapper) 
+        public TypeController(ITypeService services, IMapper mapper)
         {
             _services = services;
             _mapper = mapper;
@@ -45,7 +44,7 @@ namespace TopZone.Controllers
         //[HttpGet]
         //public IActionResult GetTopProductForEveryType(TypeOfPrroduct typeOfPrroduct)
         //{
-               
+
         //}
 
     }

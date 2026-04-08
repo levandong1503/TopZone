@@ -20,7 +20,7 @@ public class TypeServices : ITypeService
     {
         //_iTypeRepository.Add(type);
         _unitOfWork.TypeRepository.Add(type);
-        await _unitOfWork.SaveChangesAsync(); 
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public Type GetById(int id)

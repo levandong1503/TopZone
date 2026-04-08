@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.ObjectPool;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TopZone.Controllers;
 
@@ -27,7 +22,8 @@ public class CatalogControler : ControllerBase
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
             using var FileCreate = new FileStream($"./wwwroot/images/catalog/{Guid.NewGuid()}{extension}", FileMode.Create, FileAccess.Write);
             await file.CopyToAsync(FileCreate);
-        };
+        }
+        ;
 
         Response.StatusCode = StatusCodes.Status201Created;
     }
@@ -48,7 +44,7 @@ public class CatalogControler : ControllerBase
         var catalogFolder = new DirectoryInfo("./wwwroot/images/catalog");
         foreach (var item in catalogFolder.GetFiles())
         {
-            if(deleteFiles.Contains(item.Name))
+            if (deleteFiles.Contains(item.Name))
             {
                 item.Delete();
             }

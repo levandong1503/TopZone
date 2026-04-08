@@ -1,13 +1,9 @@
-﻿using Application;
-using Application.Interface;
+﻿using Application.Interface;
 using AutoMapper;
 using Domain.Dtos;
-using Domain.Entities;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TopZone.Dtos;
 
 namespace TopZone.Controllers
 {
@@ -46,18 +42,18 @@ namespace TopZone.Controllers
             {
                 var newProduct = await _productServices.Add(productRequest);
             }
-            catch (TypeNotFoundException) 
+            catch (TypeNotFoundException)
             {
                 BadRequest("typeId is not found");
             }
-            
+
             return Ok();
         }
 
         [HttpGet("GetProductsOfTypes")]
         public ActionResult GetProducsOfType([FromQuery] int idType, int productTaking = 5)
         {
-            var producsOfTypes = _productServices.GetHotProductsOfType(idType,productTaking);
+            var producsOfTypes = _productServices.GetHotProductsOfType(idType, productTaking);
             return Ok(producsOfTypes);
         }
 

@@ -1,6 +1,5 @@
 ﻿namespace Domain.Abstractions;
 
-using Domain.Models;
 using Type = Entities.Type;
 public interface ITypeRepository : IRepositoryBase<Type>
 {
