@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Application;
+﻿namespace Application;
 
 public class PasswordHashService : IPasswordHashService
 {

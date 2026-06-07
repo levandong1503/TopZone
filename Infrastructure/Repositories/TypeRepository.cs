@@ -1,6 +1,4 @@
-﻿using Domain.Abstractions;
-using Infrastructure.Data;
-using Type = Domain.Entities.Type;
+﻿using Type = Domain.Entities.Type;
 
 namespace Infrastructure.Repositories;
 

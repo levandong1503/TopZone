@@ -1,11 +1,4 @@
-﻿using Application.Interface;
-using AutoMapper;
-using Domain.Abstractions;
-using Domain.Dtos;
-using Domain.Entities;
-using Domain.Exceptions;
-
-namespace Application;
+﻿namespace Application;
 
 public class ProductService : IProductService
 {

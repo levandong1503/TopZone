@@ -1,0 +1,11 @@
+﻿global using Application;
+global using Application.Interface;
+global using Domain.Dtos;
+global using Domain.Entities;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Text;
+global using TopZone.Dtos;
+global using Type = Domain.Entities.Type;

@@ -24,4 +24,11 @@ export class HomeComponentComponent {
 
     list = [1, 2, 3, 4, 5, 6, 7, 8]
 
+    listTypes = [
+        { imageSrc: 'assets/images/iphone-16-pro-max-product.png', titleType: 'Iphone' },
+        { imageSrc: 'assets/images/samsung-galaxy-s23-ultra-product.png', titleType: 'Samsung' },
+        { imageSrc: 'assets/images/oppo-find-x6-pro-product.png', titleType: 'Oppo' },
+        { imageSrc: 'assets/images/xiaomi-13-pro-product.png', titleType: 'Xiaomi' },
+    ]
+
 }

@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using Domain.Dtos;
-using Domain.Entities;
-using TopZone.Dtos;
-using Type = Domain.Entities.Type;
 namespace TopZone.Mapper
 {
     public class MapperConfigurationProfile : Profile

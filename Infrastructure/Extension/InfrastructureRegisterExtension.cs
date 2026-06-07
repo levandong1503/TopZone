@@ -10,5 +10,7 @@ public static class InfrastructureRegisterExtension
     {
         services.AddTransient<ITypeRepository, TypeRepository>();
         services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddTransient<ITypeProductRepository, TypeProductsRepository>();
+        services.AddTransient<ITokenRepository, TokenRepository>();
     }
 }

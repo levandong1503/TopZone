@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
-namespace Domain.Entities;
+﻿namespace Domain.Entities;
 
 [Index(nameof(UserId), IsUnique = true)]
 public class Customer

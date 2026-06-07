@@ -1,5 +1,4 @@
 using Application;
-using Application.extension;
 using Infrastructure.Data;
 using Infrastructure.Extension;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -1,0 +1,18 @@
+﻿global using Application.Interface;
+global using Domain.Abstractions;
+global using Type = Domain.Entities.Type;
+global using System.Security.Cryptography;
+global using AutoMapper;
+global using Domain.Dtos;
+global using Domain.Entities;
+global using Domain.Exceptions;
+global using Infrastructure.Data;
+global using Infrastructure.Repositories;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;

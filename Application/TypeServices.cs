@@ -1,8 +1,4 @@
-﻿using Application.Interface;
-using Domain.Abstractions;
-using Type = Domain.Entities.Type;
-
-namespace Application;
+﻿namespace Application;
 
 public class TypeServices : ITypeService
 {

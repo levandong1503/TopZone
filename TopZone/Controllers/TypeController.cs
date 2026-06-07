@@ -1,9 +1,4 @@
-﻿using Application.Interface;
-using AutoMapper;
-using Domain.Dtos;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Type = Domain.Entities.Type;
+﻿using AutoMapper;
 
 namespace TopZone.Controllers
 {

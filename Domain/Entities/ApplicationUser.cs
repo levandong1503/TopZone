@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Entities;
+﻿namespace Domain.Entities;
 
 public class ApplicationUser
 {
@@ -25,4 +23,8 @@ public class ApplicationUser
     public Customer? Customer { get; set; }
     public Staff? Staff { get; set; }
     public ICollection<RefreshToken>? RefreshTokens { get; set; }
+    
+    public Guid? RoleId { get; set; } // FK to Role.Id
+    [ForeignKey(nameof(RoleId))]
+    public Role? Role { get; set; }
 }

@@ -31,15 +31,15 @@
         </ul>
 
         <div class="container-flud min-vw-25 text-end">
-            <div class="rounded-circle p-2 d-inline-block bg-body-secondary bg-opacity-25 text-center mx-2">
-                <i class="fa-light fa-magnifying-glass fs-5 p-1 text-white"></i>
-            </div>
-            <div class="rounded-circle p-2 d-inline-block bg-body-secondary bg-opacity-25 text-center mx-2">
-                <i class="fa-light fa-bag-shopping fs-5 p-1 text-white"></i>
-            </div>
+            
         </div>
     </nav>
     <app-slider></app-slider>
+
+    <div shape="" coords="" href="" alt="" id="TypeProduct"
+    display="flex" class="d-flex justify-content-center align-items-center mx-auto">
+        <app-type-card *ngFor="let item of listTypes" [imageSrc]="'assets/images/iphone-16-pro-max-product.png'" [titleType]="'Iphone'"></app-type-card>
+    </div>
 
     <div class="container">
         <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">

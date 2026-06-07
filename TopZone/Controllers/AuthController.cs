@@ -1,30 +1,21 @@
-﻿using Application;
-using Domain.Entities;
-using Infrastructure.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using TopZone.Dtos;
-
-namespace TopZone.Controllers;
+﻿namespace TopZone.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration configuration;
-    private readonly TopZoneContext _context;
-    private readonly string[] standardUsers = { "sa", "a", "readingUser", "admin" };
     private IPasswordHashService _passwordHashService;
-    public AuthController(IConfiguration configuration, TopZoneContext topZoneContext, IPasswordHashService passwordHashService)
+    private readonly IUserService userService;
+    private readonly ITokenService _tokenService;
+    public AuthController(IConfiguration configuration, IUserService userService,
+        IPasswordHashService passwordHashService,
+        ITokenService tokenService)
     {
         this.configuration = configuration;
-        _context = topZoneContext;
+        this.userService = userService;
         _passwordHashService = passwordHashService;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
@@ -36,42 +27,124 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginUserRequest user)
+    public async Task<IActionResult> Login(LoginUserRequest request)
     {
-        var userLogin = _context.Users.FirstOrDefault(u => u.Email == user.Email);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        ApplicationUser? userLogin = await userService.GetByEmailAsync(request.Email);
         if (userLogin == null)
         {
             return BadRequest("Invalid user");
         }
 
-        var isValidPassword = _passwordHashService.VerifyPassword(user.Password, userLogin.PasswordHash);
+        bool isValidPassword = _passwordHashService.VerifyPassword(request.Password, userLogin.PasswordHash);
         if (!isValidPassword)
         {
             return BadRequest("Invalid password");
         }
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(configuration["JWT:Secret"]);
+        (string accessToken, string refreshToken) = await _tokenService.GenerateTokensAsync(userLogin, deviceInfo: Request.Headers["User-Agent"].ToString());
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+        JwtSecurityToken parsedAccess = handler.ReadJwtToken(accessToken);
+        JwtSecurityToken parsedRefresh = handler.ReadJwtToken(refreshToken);
+
+        TokenResponse response = new TokenResponse
         {
-            // cau hinh cho token
-            Subject = new ClaimsIdentity(new Claim[]
-           {
-                        new Claim(ClaimTypes.Name, user.Email),
-                        user.Email == "sa@gmail.com"
-                        ? new Claim(ClaimTypes.Role, "Admin")
-                        : new Claim(ClaimTypes.Role, "Standard"),
-           }),
-            // thoi gian hoat dong cua token
-            Expires = DateTime.UtcNow.AddDays(1),
-            // thuat toan ma hoa
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Audience = configuration["JWT:Audience"],
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            AccessTokenExpiresAt = parsedAccess.ValidTo,
+            RefreshTokenExpiresAt = parsedRefresh.ValidTo
         };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var tokenString = tokenHandler.WriteToken(token);
-        return Ok(new { Token = tokenString });
+
+        return Ok(response);
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] RefreshRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        RefreshToken? tokenEntity = await _tokenService.GetRefreshTokenAsync(request.RefreshToken);
+        if (tokenEntity == null || tokenEntity.IsRevoked || tokenEntity.ExpiresAt <= DateTime.UtcNow)
+        {
+            return BadRequest("Invalid or expired refresh token");
+        }
+
+        // Validate refresh token JWT signature and claims
+        string? secret = configuration["JWT:Secret"];
+        TokenValidationParameters validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidIssuer = configuration["JWT:Issuer"],
+            ValidAudience = configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+            ClockSkew = TimeSpan.Zero
+        };
+
+        JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+        try
+        {
+            handler.ValidateToken(request.RefreshToken, validationParameters, out SecurityToken validatedToken);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Invalid refresh token");
+        }
+
+        // Get user
+        ApplicationUser? user = await userService.GetByIdAsync(tokenEntity.ApplicationUserId);
+        if (user == null)
+        {
+            return BadRequest("Invalid token owner");
+        }
+
+        // Revoke old refresh token
+        tokenEntity.IsRevoked = true;
+        await _tokenService.RevokeRefreshTokenAsync(request.RefreshToken);
+
+        // Issue new pair
+        (string newAccess, string newRefresh) = await _tokenService.GenerateTokensAsync(user, request.DeviceInfo);
+
+        JwtSecurityToken parsedAccess = handler.ReadJwtToken(newAccess);
+        JwtSecurityToken parsedRefresh = handler.ReadJwtToken(newRefresh);
+
+        TokenResponse response = new TokenResponse
+        {
+            AccessToken = newAccess,
+            RefreshToken = newRefresh,
+            AccessTokenExpiresAt = parsedAccess.ValidTo,
+            RefreshTokenExpiresAt = parsedRefresh.ValidTo
+        };
+
+        return Ok(response);
+    }
+
+    [HttpPost("revoke")]
+    [Authorize]
+    public async Task<IActionResult> Revoke([FromBody] RefreshRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        bool result = await _tokenService.RevokeRefreshTokenAsync(request.RefreshToken);
+        if (!result)
+        {
+            return BadRequest("Token not found or already revoked");
+        }
+
+        return Ok("Revoked");
     }
 
     [HttpPost("register")]
@@ -79,32 +152,16 @@ public class AuthController : ControllerBase
     {
         // 1. Validate model
         if (!ModelState.IsValid)
-        {
             return BadRequest(ModelState);
-        }
 
-        // 2. Check UserName tồn tại
-        //var userNameExists = await _context.Users
-        //    .AnyAsync(x => x.UserName == request.UserName);
-
-        //if (userNameExists)
-        //{
-        //    return BadRequest("UserName already exists");
-        //}
-
-        // 3. Check Email tồn tại
-        var emailExists = await _context.Users
-            .AnyAsync(x => x.Email == request.Email);
-
+        // 2. Check Email tồn tại
+        var emailExists = await userService.ExistsEmail(request.Email);
         if (emailExists)
-        {
             return BadRequest("Email already exists");
-        }
 
-        // 4. Hash password
+        // 3. Hash password
         var passwordHash = _passwordHashService.HashPassword(request.Password);
-
-        // 5. Tạo user
+        // 4. Tạo user
         var user = new ApplicationUser
         {
             PasswordHash = passwordHash,
@@ -112,11 +169,8 @@ public class AuthController : ControllerBase
             PhoneNumber = request.PhoneNumber,
             Address = request.Address
         };
-
-        // 6. Save DB
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
+        // 5. Save DB
+        await userService.Add(user);
         return Ok("Register success");
     }
 }

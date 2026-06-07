@@ -1,10 +1,4 @@
-﻿using Application.Interface;
-using Domain.Abstractions;
-using Infrastructure.Data;
-using Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Application.extension;
+﻿namespace Application;
 
 public static class ApplicationRegisterExtension
 {
@@ -14,8 +8,11 @@ public static class ApplicationRegisterExtension
         services.AddTransient<IProductRepository, ProductRepository>();
         services.AddTransient<ITypeRepository, TypeRepository>();
         services.AddTransient<ITypeProductRepository, TypeProductsRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<ITypeService, TypeServices>();
         services.AddTransient<ITypeProductService, TypeProductService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<ITokenService, TokenService>();
     }
 }
